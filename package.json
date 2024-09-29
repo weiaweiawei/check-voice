@@ -2,8 +2,16 @@
   "name": "check-voice",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/checkVoice.esm.js",
   "type": "module",
+  "module": "dist/checkVoice.esm.js",
+  "exports": {
+    ".": {
+      "import": "./dist/checkVoice.esm.js"
+    },
+    "./umd": {
+      "import": "./dist/checkVoice.umd.js"
+    }
+  },
   "scripts": {
     "dev": "ts-node src/index.ts",
     "clear": "rm -rf dist/",

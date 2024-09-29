@@ -9,7 +9,7 @@ import copy from 'rollup-plugin-copy'; // 添加复制插件
 
 const config = [
   {
-    input: "src/index.ts",
+    input: ["src/index.ts", "src/worklet.js"],
     output: [
       {
         file: "./dist/checkVoice.esm.js",
@@ -37,7 +37,7 @@ const config = [
         targets: [
           { src: 'node_modules/onnxruntime-web/**/*.wasm', dest: 'dist' }, // 复制 .wasm 文件
           { src: 'silero_vad.onnx', dest: 'dist' }, // 复制 .wasm 文件
-          // 可以添加其他需要复制的文件或目录
+          // { src: './src/worklet.js', dest: 'dist' },
         ]
       }),
       typescript({
