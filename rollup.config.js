@@ -1,59 +1,63 @@
 import typescript from 'rollup-plugin-typescript2';
-import dts from 'rollup-plugin-dts';
 import terser from '@rollup/plugin-terser';
-import url from 'rollup-plugin-url'; // 引入插件
-import resolve from '@rollup/plugin-node-resolve'; // 新增
-import commonjs from '@rollup/plugin-commonjs'; // 新增
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
 import wasm from 'rollup-plugin-wasm';
-import copy from 'rollup-plugin-copy'; // 添加复制插件
+import copy from 'rollup-plugin-copy';
 
 const config = [
+  // ES Module 输出，支持多入口和代码分割
   {
     input: ['src/index.ts', 'src/worklet.ts'],
-    output: [
-      {
-        dir: './dist/es',
-        format: 'es',
-        sourcemap: false
-      },
-      {
-        dir: './dist/umd',
-        format: 'umd',
-        name: 'checkVoice',
-        sourcemap: false
-      }
-    ],
+    output: {
+      dir: './dist/es',  // 使用目录输出
+      format: 'es',      // ES 格式支持代码分割
+      sourcemap: true
+    },
     plugins: [
-      resolve(), // 新增
+      resolve(),
       typescript({
         tsconfig: './tsconfig.json',
-        declaration: false // 不生成 .d.ts 文件
-        // exclude: ['**/*.d.ts'],       // 排除 .d.ts 文件
+        declaration: false
       }),
-      commonjs(), // 新增
-      // url({
-      //   include: ['**/*.onnx', '**/*.wasm'],
-      //   limit: 0, // 不压缩，强制生成文件
-      //   destDir: 'dist', // 输出到指定目录
-      //   emitFiles: true, // 生成文件
-      //   fileName: `[name][extname]`,
-      // }),
+      commonjs(),
       terser(),
       wasm(),
       copy({
         targets: [
-          { src: 'node_modules/onnxruntime-web/**/*.wasm', dest: 'dist' }, // 复制 .wasm 文件
-          { src: 'silero_vad.onnx', dest: 'dist' } // 复制 .wasm 文件
-          // { src: './src/worklet.js', dest: 'dist' },
+          { src: 'node_modules/onnxruntime-web/**/*.wasm', dest: 'dist' },
+          { src: 'silero_vad.onnx', dest: 'dist' }
+        ]
+      })
+    ]
+  },
+
+  // UMD 格式，只支持单入口
+  {
+    input: 'src/index.ts',  // UMD 格式需要单入口文件
+    output: {
+      file: './dist/checkVoice.umd.js',  // 输出的 UMD 模块文件
+      format: 'umd',
+      name: 'checkVoice',
+      sourcemap: false
+    },
+    plugins: [
+      resolve(),
+      typescript({
+        tsconfig: './tsconfig.json',
+        declaration: false
+      }),
+      commonjs(),
+      terser(),
+      wasm(),
+      copy({
+        targets: [
+          { src: 'node_modules/onnxruntime-web/**/*.wasm', dest: 'dist' },
+          { src: 'silero_vad.onnx', dest: 'dist' }
         ]
       })
     ]
   }
-  // {
-  //   input: "types/index.d.ts",
-  //   output: [{ file: "dist/check-voice.d.ts", format: "es" }],
-  //   plugins: [dts()],
-  // },
 ];
 
 export default config;
