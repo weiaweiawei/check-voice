@@ -4,6 +4,15 @@ import { Message } from "../types/index.d";
 
 import { Resampler } from "./resampler";
 
+// enum Message {
+//   AudioFrame = "AUDIO_FRAME",
+//   SpeechStart = "SPEECH_START",
+//   VADMisfire = "VAD_MISFIRE",
+//   SpeechEnd = "SPEECH_END",
+//   SpeechStop = "SPEECH_STOP",
+// }
+
+
 interface WorkletOptions {
   frameSamples: number;
 }
@@ -64,20 +73,4 @@ class Processor extends AudioWorkletProcessor {
   }
 }
 
-registerProcessor("vad-helper-worklet", Processor);
-
-
-// import MicVAD from "check-voice"; 
-// import { onMounted } from "vue";
-
-// onMounted(async () => {
-
-//   const myvad = await MicVAD.new({
-//       onSpeechEnd: (audio: any) => {
-//         console.log(audio);
-//         // do something with `audio` (Float32Array of audio samples at sample rate 16000)...
-//       }
-//     })
-
-//   console.log(myvad);
-// })
+registerProcessor("vad-worklet", Processor);

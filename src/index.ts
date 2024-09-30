@@ -225,7 +225,7 @@ export class AudioNodeVAD {
       );
       throw e;
     }
-    return new AudioWorkletNode(ctx, "vad-helper-worklet", {
+    return new AudioWorkletNode(ctx, "vad-worklet", {
       processorOptions: {
         frameSamples: fullOptions.frameSamples,
       },

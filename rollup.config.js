@@ -9,7 +9,7 @@ import copy from 'rollup-plugin-copy'; // 添加复制插件
 
 const config = [
   {
-    input: ["src/index.ts", "src/worklet.js"],
+    input: ["src/index.ts", "src/worklet.ts"],
     output: [
       {
         file: "./dist/checkVoice.esm.js",
@@ -42,6 +42,8 @@ const config = [
       }),
       typescript({
         tsconfig: "./tsconfig.json",
+        declaration: false, // 不生成 .d.ts 文件
+        // exclude: ['**/*.d.ts'],       // 排除 .d.ts 文件
       }),
       terser(),
       wasm()
@@ -49,7 +51,7 @@ const config = [
   },
   // {
   //   input: "types/index.d.ts",
-  //   output: [{ file: "dist/BotaSDK.d.ts", format: "es" }],
+  //   output: [{ file: "dist/check-voice.d.ts", format: "es" }],
   //   plugins: [dts()],
   // },
 ];
