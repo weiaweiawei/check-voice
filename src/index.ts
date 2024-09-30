@@ -105,10 +105,10 @@ class MicVAD {
     else stream = fullOptions.stream
 
     // 创建音频上下文和源节点
-    const audioContext = new AudioContext();
+    const audioContext = new AudioContext(); // 管理音频操作的核心对象，用于创建音频节点、控制播放、以及处理音频数据。处理音频的一个环境
     const sourceNode = new MediaStreamAudioSourceNode(audioContext, {
       mediaStream: stream,
-    });
+    }); // 将实时音频流 转换成 web audio api 的音频节点
 
     // 初始化 VAD 处理节点
     const audioNodeVAD = await AudioNodeVAD.new(audioContext, fullOptions);
