@@ -6,8 +6,8 @@ import {
   RealTimeVADOptions,
   FrameProcessorOptions,
   SpeechProbabilities,
-  Message
 } from "../types/index.d";
+import { Message} from './messages'
 import { log } from "./logging";
 
 // @ts-ignore
