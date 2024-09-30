@@ -1,6 +1,6 @@
 import { log } from "./logging";
 
-import { Message } from "../types/index.d";
+import { Message } from "./messages";
 
 import { Resampler } from "./resampler";
 
@@ -11,7 +11,6 @@ import { Resampler } from "./resampler";
 //   SpeechEnd = "SPEECH_END",
 //   SpeechStop = "SPEECH_STOP",
 // }
-
 
 interface WorkletOptions {
   frameSamples: number;
